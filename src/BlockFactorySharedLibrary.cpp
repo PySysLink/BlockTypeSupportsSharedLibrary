@@ -6,8 +6,6 @@
 #include "LoggerInstance.h"
 #include <PySysLinkBase/PortsAndSignalValues/PortTypeMetadata.h>
 #include <iostream>
-#include "SimulationBlockSharedLibraryWithContinuousStates.h"
-#include "SimulationBlockSharedLibrary.h"
 
 namespace BlockTypeSupports::SharedLibrarySupport
 {
@@ -51,9 +49,6 @@ namespace BlockTypeSupports::SharedLibrarySupport
     {
         std::string blockClass = PySysLinkBase::ConfigurationValueManager::TryGetConfigurationValue<std::string>("BlockClass", blockConfiguration);
         
-        int inputPortNumber = PySysLinkBase::ConfigurationValueManager::TryGetConfigurationValue<int>("InputPortNumber", blockConfiguration);
-        int outputPortNumber = PySysLinkBase::ConfigurationValueManager::TryGetConfigurationValue<int>("OutputPortNumber", blockConfiguration);
-
         auto inputTypes = PySysLinkBase::ParsePortTypeMetadatas(
         PySysLinkBase::ConfigurationValueManager::TryGetConfigurationValue<std::vector<std::string>>(
             "InputPortTypes", blockConfiguration));
@@ -67,18 +62,22 @@ namespace BlockTypeSupports::SharedLibrarySupport
 
         if (blockClass == "SharedLibrary")
         {
-            return std::make_shared<SimulationBlockSharedLibrary>(blockConfiguration, blockEventsHandler, inputTypes, outputTypes, true);
+            return std::make_shared<SimulationBlockSharedLibrary>(
+                blockConfiguration,
+                blockEventsHandler,
+                inputTypes,
+                outputTypes,
+                std::vector<bool>(inputTypes.size(), true));
         }
         else if (blockClass == "SharedLibraryWithContinuousStates")
         {
-            return std::make_shared<SimulationBlockSharedLibraryWithContinuousStates>(blockConfiguration, blockEventsHandler, inputTypes, outputTypes, true);
+            throw std::runtime_error(
+                "SharedLibraryWithContinuousStates is not yet implemented for the shared function adapter");
         }
         else
         {
             throw std::runtime_error("Block class not supported by BlockFactorySharedLibrary: " + blockClass);
         }
-        
-        return this->CreateBlockFromRegistry(this->factoryRegistry, blockClass, blockConfiguration, blockEventsHandler, JoinPortTypes(inputTypes), JoinPortTypes(outputTypes), inputPortNumber, outputPortNumber);
     }  
 
 } // namespace BlockTypeSupports::SharedLibrarySupport

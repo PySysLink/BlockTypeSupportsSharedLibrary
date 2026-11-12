@@ -1,0 +1,37 @@
+pluginName: shared_library_blocks
+pluginType: coreBlockLibrary
+blockType: SharedLibrary
+version: @PROJECT_VERSION@
+dependsOn:
+  - name: BlockTypesSharedLibrary
+    version: @PROJECT_VERSION@
+blockLibraries:
+  - name: SharedLibraryBlocks
+    blockTypes:
+      - name: SharedLibrary
+        configurationValues:
+          - name: SharedLibraryPath
+            defaultValue: ""
+            type: string
+          - name: ComputeFunctionName
+            defaultValue: computeOutputs
+            type: string
+          - name: InputPortTypes
+            defaultValue: []
+            type: string[]
+          - name: OutputPortTypes
+            defaultValue: []
+            type: string[]
+          - name: SampleTime
+            defaultValue: -1
+            type: double
+        inputPortNumber: length(InputPortTypes)
+        outputPortNumber: length(OutputPortTypes)
+        inputPortTypes:
+          all:
+            port_category: FullySupportedSignalValue
+            signal_value_type: FullySupportedSignalValueType.Any
+        outputPortTypes:
+          all:
+            port_category: FullySupportedSignalValue
+            signal_value_type: FullySupportedSignalValueType.Any

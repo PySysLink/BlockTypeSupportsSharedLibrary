@@ -38,7 +38,31 @@ find_package(PySysLinkBase ${PYSYSLINK_BASE_VERSION} REQUIRED)
 
 # Add subdirectories
 add_subdirectory(src)
-# add_subdirectory(Tests)
+
+include(CTest)
+if(BUILD_TESTING)
+    add_library(shared_library_typed_test_plugin SHARED
+        tests/typed_block_plugin.cpp)
+    target_include_directories(shared_library_typed_test_plugin PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${PySysLinkBase_INCLUDE_DIRS})
+    target_link_libraries(shared_library_typed_test_plugin PRIVATE
+        PySysLinkBase::PySysLinkBase)
+
+    add_executable(shared_library_block_test
+        tests/shared_library_block_test.cpp)
+    target_include_directories(shared_library_block_test PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${PySysLinkBase_INCLUDE_DIRS})
+    target_link_libraries(shared_library_block_test PRIVATE
+        PySysLinkBase::PySysLinkBase
+        ${CMAKE_DL_LIBS})
+
+    add_test(
+        NAME shared_library_block_test
+        COMMAND shared_library_block_test
+            $<TARGET_FILE:shared_library_typed_test_plugin>)
+endif()
 
 
 
@@ -64,7 +88,17 @@ configure_file(
     @ONLY
 )
 
+configure_file(
+    ${CMAKE_SOURCE_DIR}/shared_library_blocks.pslkblp.yaml.in
+    ${CMAKE_BINARY_DIR}/shared_library_blocks.${PROJECT_VERSION_UNDERSCORE}.pslkblp.yaml
+    @ONLY
+)
+
 install(FILES ${CMAKE_BINARY_DIR}/shared_library_support.${PROJECT_VERSION_UNDERSCORE}.pslkbtsp.yaml
+    DESTINATION ${PLUGIN_INSTALL_DIR}
+)
+
+install(FILES ${CMAKE_BINARY_DIR}/shared_library_blocks.${PROJECT_VERSION_UNDERSCORE}.pslkblp.yaml
     DESTINATION ${PLUGIN_INSTALL_DIR}
 )
 
@@ -110,4 +144,3 @@ install(TARGETS BlockTypeSupportsSharedLibrarySupport
 if(UNIX AND NOT APPLE) # Linux-specific
     install(CODE "execute_process(COMMAND ldconfig)")
 endif()
-

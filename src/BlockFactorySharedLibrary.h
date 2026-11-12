@@ -4,7 +4,6 @@
 #include <PySysLinkBase/IBlockFactory.h>
 #include <PySysLinkBase/IBlockEventsHandler.h>
 #include "SimulationBlockSharedLibrary.h"
-#include "SimulationBlockSharedLibraryWithContinuousStates.h"
 #include <stdexcept>
 #include <algorithm> 
 

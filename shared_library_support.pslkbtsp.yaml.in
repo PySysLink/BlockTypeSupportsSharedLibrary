@@ -1,6 +1,6 @@
-pluginName: basic_cpp_support
+pluginName: shared_library_support
 pluginType: blockTypeSupport
-blockType: BasicCpp
+blockType: SharedLibrary
 version: @PROJECT_VERSION@
 dependsOn:
   - name: PySysLinkBase
