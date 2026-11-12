@@ -1,0 +1,7 @@
+pluginName: basic_cpp_support
+pluginType: blockTypeSupport
+blockType: BasicCpp
+version: @PROJECT_VERSION@
+dependsOn:
+  - name: PySysLinkBase
+    version: @PYSYSLINK_BASE_VERSION@
