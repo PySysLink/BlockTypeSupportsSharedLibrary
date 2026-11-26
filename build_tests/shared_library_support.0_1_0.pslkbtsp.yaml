@@ -1,0 +1,7 @@
+pluginName: shared_library_support
+pluginType: blockTypeSupport
+blockType: SharedLibrary
+version: 0.1.0
+dependsOn:
+  - name: PySysLinkBase
+    version: 0.1.0

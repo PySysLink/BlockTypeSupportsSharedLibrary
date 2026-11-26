@@ -60,7 +60,7 @@ namespace BlockTypeSupports::SharedLibrarySupport
 
         LoggerInstance::GetLogger()->debug("{} class block to create with input types {}, output types {}", blockClass, JoinPortTypes(inputTypes), JoinPortTypes(outputTypes));
 
-        if (blockClass == "SharedLibrary")
+        if (blockClass == "SharedLibraryBlocks/SharedLibrary")
         {
             return std::make_shared<SimulationBlockSharedLibrary>(
                 blockConfiguration,
@@ -69,7 +69,7 @@ namespace BlockTypeSupports::SharedLibrarySupport
                 outputTypes,
                 std::vector<bool>(inputTypes.size(), true));
         }
-        else if (blockClass == "SharedLibraryWithContinuousStates")
+        else if (blockClass == "SharedLibraryBlocks/SharedLibraryWithContinuousStates")
         {
             throw std::runtime_error(
                 "SharedLibraryWithContinuousStates is not yet implemented for the shared function adapter");

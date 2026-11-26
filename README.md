@@ -84,3 +84,40 @@ these configuration values:
 Port counts come from the lengths of the type arrays. A positive `SampleTime`
 creates a discrete sample time; the default `-1` allows the simulation to
 resolve an inherited discrete sample time.
+
+## High-level C++ blocks
+
+The toolkit plugin offers two ways to build a shared-library block. Both
+produce a low-level `SharedLibraryBlocks/SharedLibrary` block in the model's
+`build/shared_library` directory.
+
+`CppBlockEmbedded` takes a `Code` property containing a typed function named
+`computeOutputs`. Its signature must take sample time, current time, minor-step
+status, followed by one parameter for each input port, and return a `std::tuple`
+with one value for each output port. The plugin generates an exported
+`ComputeFunctionName` adapter around that function and builds it with CMake.
+For example:
+
+```cpp
+std::tuple<double> computeOutputs(
+    std::shared_ptr<PySysLinkBase::SampleTime> sampleTime,
+    double currentTime,
+    bool isMinorStep,
+    int input)
+{
+    return {currentTime + input};
+}
+```
+
+`CMakeBlock` takes a `ProjectDirectory` and `TargetName`. The project must
+define a shared-library target with that name and export the configured
+`ComputeFunctionName` using the generic entry-point signature shown above. The
+project configures and links its own dependencies (including PySysLinkBase and
+the shared-library support headers); `CMakeConfigureArguments` can pass
+additional `-D` options to CMake. The plugin configures the project directly
+and uses CMake's File API to locate the built target artifact.
+
+Both require CMake, a C++17 compiler, and the PySysLinkBase and
+BlockTypeSupportsSharedLibrarySupport CMake packages. Project directories may
+be absolute or relative to the `.pslk` file. C++ source and build errors are
+reported as block-compilation errors.

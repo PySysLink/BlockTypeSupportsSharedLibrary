@@ -14,24 +14,24 @@ blockLibraries:
             defaultValue: ""
             type: string
           - name: ComputeFunctionName
-            defaultValue: computeOutputs
+            defaultValue: computeBlock
             type: string
           - name: InputPortTypes
             defaultValue: []
-            type: string[]
+            type: enum(FullySupportedSignalValueType)[]
           - name: OutputPortTypes
             defaultValue: []
-            type: string[]
+            type: enum(FullySupportedSignalValueType)[]
           - name: SampleTime
             defaultValue: -1
             type: double
         inputPortNumber: length(InputPortTypes)
         outputPortNumber: length(OutputPortTypes)
         inputPortTypes:
-          all:
+          by_configuration:
             port_category: FullySupportedSignalValue
-            signal_value_type: FullySupportedSignalValueType.Any
+            configuration_value: InputPortTypes
         outputPortTypes:
-          all:
+          by_configuration:
             port_category: FullySupportedSignalValue
-            signal_value_type: FullySupportedSignalValueType.Any
+            configuration_value: OutputPortTypes

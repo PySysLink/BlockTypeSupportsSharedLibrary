@@ -102,6 +102,10 @@ install(FILES ${CMAKE_BINARY_DIR}/shared_library_blocks.${PROJECT_VERSION_UNDERS
     DESTINATION ${PLUGIN_INSTALL_DIR}
 )
 
+install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/toolkit_shared_library_plugin/
+    DESTINATION ${PLUGIN_INSTALL_DIR}/toolkit_block_libraries/toolkit_shared_library_plugin)
+
 include(CMakePackageConfigHelpers)
 
 # Generate the package configuration file for BlockTypeSupportsSharedLibrarySupport

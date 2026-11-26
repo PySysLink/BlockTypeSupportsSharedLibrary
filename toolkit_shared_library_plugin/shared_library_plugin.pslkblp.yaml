@@ -1,0 +1,69 @@
+pluginName: shared_library_plugin
+pluginType: highLevelBlockLibrary
+blockType: high_level
+metadata:
+  pythonFilename: shared_library_plugin.py
+blockLibraries:
+  - name: shared_library_plugin
+    blockTypes:
+      - name: CppBlockEmbedded
+        configurationValues:
+          - name: Code
+            defaultValue: ""
+            type: string
+          - name: ComputeFunctionName
+            defaultValue: computeBlock
+            type: string
+          - name: InputPortTypes
+            defaultValue: []
+            type: enum(FullySupportedSignalValueType)[]
+          - name: OutputPortTypes
+            defaultValue: []
+            type: enum(FullySupportedSignalValueType)[]
+          - name: SampleTime
+            defaultValue: -1
+            type: double
+        inputPortNumber: length(InputPortTypes)
+        outputPortNumber: length(OutputPortTypes)
+        inputPortTypes:
+          by_configuration:
+            port_category: FullySupportedSignalValue
+            configuration_value: InputPortTypes
+        outputPortTypes:
+          by_configuration:
+            port_category: FullySupportedSignalValue
+            configuration_value: OutputPortTypes
+
+      - name: CMakeBlock
+        configurationValues:
+          - name: ProjectDirectory
+            defaultValue: ""
+            type: string
+          - name: TargetName
+            defaultValue: pysyslink_block
+            type: string
+          - name: CMakeConfigureArguments
+            defaultValue: []
+            type: string[]
+          - name: ComputeFunctionName
+            defaultValue: computeBlock
+            type: string
+          - name: InputPortTypes
+            defaultValue: []
+            type: enum(FullySupportedSignalValueType)[]
+          - name: OutputPortTypes
+            defaultValue: []
+            type: enum(FullySupportedSignalValueType)[]
+          - name: SampleTime
+            defaultValue: -1
+            type: double
+        inputPortNumber: length(InputPortTypes)
+        outputPortNumber: length(OutputPortTypes)
+        inputPortTypes:
+          by_configuration: 
+            port_category: FullySupportedSignalValue
+            configuration_value: InputPortTypes
+        outputPortTypes:
+          by_configuration: 
+            port_category: FullySupportedSignalValue
+            configuration_value: OutputPortTypes
